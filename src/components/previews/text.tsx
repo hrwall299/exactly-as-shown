@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-type P = { text?: string };
+type P = { text?: string | undefined };
 
 export function GradientText({ text = "Build Something Amazing" }: P) {
   return <div className="text-center font-display text-2xl font-bold text-gradient-animated">{text}</div>;

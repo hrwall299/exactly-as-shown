@@ -35,7 +35,7 @@ export function ScrollReveal() {
     const root = ref.current;
     if (!root) return;
     const io = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && setSeen((s) => [...new Set([...s, Number((e.target as HTMLElement).dataset.i)])])),
+      (es) => es.forEach((e) => e.isIntersecting && setSeen((s) => [...new Set([...s, Number((e.target as HTMLElement).dataset['i'])])])),
       { root, threshold: 0.5 },
     );
     root.querySelectorAll("[data-i]").forEach((n) => io.observe(n));
