@@ -30,7 +30,7 @@ export function Particles({ count = 40 }: { count?: number }) {
     const pts = Array.from({ length: count }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8 }));
     let raf = 0;
     let visible = true;
-    const io = new IntersectionObserver(([e]) => (visible = e.isIntersecting));
+    const io = new IntersectionObserver((es) => (visible = !!es[0]?.isIntersecting));
     io.observe(c);
     const draw = () => {
       raf = requestAnimationFrame(draw);
@@ -48,14 +48,14 @@ export function Particles({ count = 40 }: { count?: number }) {
         ctx.fill();
       }
       for (let i = 0; i < pts.length; i++)
-        for (let j = i + 1; j < pts.length; j++) {
-          const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+        for (let j = i + 1; j < pts.length; j++) { const a = pts[i]!, b = pts[j]!;
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < 120) {
             ctx.globalAlpha = 1 - d / 120;
             ctx.lineWidth = 0.6;
             ctx.beginPath();
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
             ctx.stroke();
           }
         }

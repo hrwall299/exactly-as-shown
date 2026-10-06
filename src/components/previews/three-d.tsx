@@ -93,7 +93,7 @@ export function PerspectiveGrid() {
   );
 }
 
-export function Text3D({ text = "DEPTH" }: { text?: string }) {
+export function Text3D({ text = "DEPTH" }: { text?: string | undefined }) {
   const shadow = Array.from({ length: 8 }, (_, i) => `${i + 1}px ${i + 1}px 0 color-mix(in oklab, var(--brand-a) ${70 - i * 7}%, transparent)`).join(",");
   return (
     <div className="font-display text-3xl font-black tracking-tight transition-transform duration-300 hover:-translate-x-1 hover:-translate-y-1" style={{ textShadow: shadow }}>

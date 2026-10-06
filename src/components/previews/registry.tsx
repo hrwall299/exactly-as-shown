@@ -6,7 +6,7 @@ import * as BG from "./backgrounds";
 import * as C from "./cards";
 import * as S from "./sections";
 
-export type PreviewProps = { text?: string };
+export type PreviewProps = { text?: string | undefined };
 
 export const previews: Record<string, ComponentType<PreviewProps>> = {
   "tilt-card": D.TiltCard,
