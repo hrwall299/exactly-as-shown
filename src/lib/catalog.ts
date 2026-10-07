@@ -555,14 +555,14 @@ export function searchEffects(list: Effect[], q: string) {
   });
 }
 
-export function renderCode(e: Effect, opts: { text?: string; hue?: number; speed?: number } = {}) {
+export function renderCode(e: Effect, opts: { text?: string | undefined; hue?: number; speed?: number } = {}) {
   return e.code
     .replaceAll("{{TEXT}}", opts.text ?? e.editableText ?? "")
     .replaceAll("{{HUE}}", String(opts.hue ?? 290))
     .replaceAll("{{SPEED}}", String(opts.speed ?? 1));
 }
 
-export function buildPrompt(e: Effect, opts: { text?: string; hue?: number; speed?: number } = {}) {
+export function buildPrompt(e: Effect, opts: { text?: string | undefined; hue?: number; speed?: number } = {}) {
   return `Create a reusable, responsive ${e.name} component using ${e.tech.join(", ")}.
 
 Effect: ${e.description}

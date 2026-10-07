@@ -54,7 +54,7 @@ export const previews: Record<string, ComponentType<PreviewProps>> = {
   "cursor-glow": S.CursorGlow,
 };
 
-export function Preview({ id, text }: { id: string; text?: string }) {
+export function Preview({ id, text }: { id: string; text?: string | undefined }) {
   const P = previews[id];
   if (!P) return null;
   return <P text={text} />;
