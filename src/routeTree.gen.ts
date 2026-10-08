@@ -10,11 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as CategoryIdRouteImport } from './routes/category.$id'
 import { Route as EffectsSlugRouteImport } from './routes/effects.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoryIdRoute = CategoryIdRouteImport.update({
+  id: '/category/$id',
+  path: '/category/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EffectsSlugRoute = EffectsSlugRouteImport.update({
@@ -25,27 +37,35 @@ const EffectsSlugRoute = EffectsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/category/$id': typeof CategoryIdRoute
   '/effects/$slug': typeof EffectsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/category/$id': typeof CategoryIdRoute
   '/effects/$slug': typeof EffectsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
+  '/category/$id': typeof CategoryIdRoute
   '/effects/$slug': typeof EffectsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/effects/$slug'
+  fullPaths: '/' | '/favorites' | '/category/$id' | '/effects/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/effects/$slug'
-  id: '__root__' | '/' | '/effects/$slug'
+  to: '/' | '/favorites' | '/category/$id' | '/effects/$slug'
+  id: '__root__' | '/' | '/favorites' | '/category/$id' | '/effects/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FavoritesRoute: typeof FavoritesRoute
+  CategoryIdRoute: typeof CategoryIdRoute
   EffectsSlugRoute: typeof EffectsSlugRoute
 }
 
@@ -56,6 +76,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$id': {
+      id: '/category/$id'
+      path: '/category/$id'
+      fullPath: '/category/$id'
+      preLoaderRoute: typeof CategoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/effects/$slug': {
@@ -70,6 +104,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FavoritesRoute: FavoritesRoute,
+  CategoryIdRoute: CategoryIdRoute,
   EffectsSlugRoute: EffectsSlugRoute,
 }
 export const routeTree = rootRouteImport

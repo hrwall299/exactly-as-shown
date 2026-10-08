@@ -11,6 +11,7 @@
 }
 
 @theme inline {
+  --font-serif: "Instrument Serif", Georgia, serif;
   --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -48,34 +49,34 @@
 :root {
   --radius: 1rem;
   --hue-a: 290;
-  --hue-b: 255;
-  --hue-c: 205;
+  --hue-b: 45;
+  --hue-c: 150;
   --fx-speed: 1;
-  --brand-a: oklch(0.66 0.24 var(--hue-a));
-  --brand-b: oklch(0.64 0.21 var(--hue-b));
-  --brand-c: oklch(0.82 0.14 var(--hue-c));
-  --background: oklch(0.12 0.015 270);
-  --foreground: oklch(0.97 0.005 270);
-  --surface: oklch(0.17 0.025 268);
-  --surface-2: oklch(0.21 0.03 268);
-  --card: oklch(0.16 0.022 268);
+  --brand-a: oklch(0.62 0.13 var(--hue-a));
+  --brand-b: oklch(0.7 0.14 var(--hue-b));
+  --brand-c: oklch(0.6 0.1 var(--hue-c));
+  --background: oklch(0.985 0.006 85);
+  --foreground: oklch(0.2 0.01 60);
+  --surface: oklch(0.96 0.01 80);
+  --surface-2: oklch(0.93 0.012 80);
+  --card: oklch(0.995 0.003 85);
   --card-foreground: var(--foreground);
-  --popover: oklch(0.16 0.025 268);
+  --popover: oklch(0.995 0.003 85);
   --popover-foreground: var(--foreground);
-  --primary: var(--brand-a);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.22 0.03 268);
+  --primary: oklch(0.22 0.01 60);
+  --primary-foreground: oklch(0.98 0.006 85);
+  --secondary: oklch(0.94 0.02 290);
   --secondary-foreground: var(--foreground);
-  --muted: oklch(0.2 0.02 268);
-  --muted-foreground: oklch(0.68 0.03 268);
-  --accent: oklch(0.24 0.04 268);
+  --muted: oklch(0.95 0.008 80);
+  --muted-foreground: oklch(0.5 0.012 60);
+  --accent: oklch(0.93 0.03 290);
   --accent-foreground: var(--foreground);
-  --destructive: oklch(0.65 0.22 25);
-  --border: oklch(1 0 0 / 9%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: var(--brand-b);
-  --gradient-brand: linear-gradient(110deg, var(--brand-a), var(--brand-b) 50%, var(--brand-c));
-  --shadow-glow: 0 0 0 1px oklch(1 0 0 / 6%), 0 20px 60px -20px color-mix(in oklab, var(--brand-a) 55%, transparent);
+  --destructive: oklch(0.6 0.2 25);
+  --border: oklch(0.2 0.01 60 / 10%);
+  --input: oklch(0.2 0.01 60 / 14%);
+  --ring: var(--brand-a);
+  --gradient-brand: linear-gradient(110deg, var(--brand-a), var(--brand-b) 55%, var(--brand-c));
+  --shadow-glow: 0 1px 0 oklch(0.2 0.01 60 / 4%), 0 18px 40px -22px oklch(0.2 0.01 60 / 35%);
 }
 
 @layer base {
@@ -110,17 +111,17 @@
 @utility glass {
   background: color-mix(in oklab, var(--surface) 55%, transparent);
   backdrop-filter: blur(14px) saturate(140%);
-  border: 1px solid oklch(1 0 0 / 9%);
+  border: 1px solid oklch(1 0 0 / 50%);
 }
 @utility shadow-glow { box-shadow: var(--shadow-glow); }
 @utility bg-grid {
   background-image:
-    linear-gradient(oklch(1 0 0 / 4%) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(1 0 0 / 4%) 1px, transparent 1px);
+    linear-gradient(oklch(0.2 0.01 60 / 6%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.2 0.01 60 / 6%) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 @utility bg-dots {
-  background-image: radial-gradient(oklch(1 0 0 / 10%) 1px, transparent 1px);
+  background-image: radial-gradient(oklch(0.2 0.01 60 / 14%) 1px, transparent 1px);
   background-size: 18px 18px;
 }
 @utility border-spin {
@@ -153,6 +154,7 @@
 @utility anim-fade-up { animation: fade-up 0.8s cubic-bezier(.2,.7,.2,1) both; }
 @utility anim-gradient { background-size: 200% 200%; animation: gradient-x calc(5s * var(--fx-speed)) ease infinite; }
 @utility anim-bounce-dot { animation: bounce-dot calc(1.2s * var(--fx-speed)) ease-in-out infinite; }
+@utility anim-marquee-rev { animation: marquee calc(22s * var(--fx-speed)) linear infinite reverse; }
 @utility anim-caret { animation: caret 1s steps(1) infinite; }
 
 @keyframes gradient-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
