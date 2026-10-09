@@ -122,6 +122,20 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { gaMeasurementId } = Route.useLoaderData();
+  const router = useRouter();
+
+  // Initialize GA4 once (from the SSR loader payload) and track every
+  // client-side navigation as a page_view. send_page_view is disabled in
+  // the gtag config, so these are the only page_view events — no duplicates.
+  useEffect(() => {
+    initAnalytics(gaMeasurementId);
+    trackPageView(window.location.pathname + window.location.search);
+    const unsubscribe = router.subscribe("onResolved", ({ toLocation }) => {
+      trackPageView(toLocation.pathname + toLocation.search);
+    });
+    return unsubscribe;
+  }, [gaMeasurementId, router]);
 
   return (
     <QueryClientProvider client={queryClient}>
