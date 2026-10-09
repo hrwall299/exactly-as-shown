@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -12,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { initAnalytics, trackPageView } from "../lib/analytics";
 
 function NotFoundComponent() {
   return (
@@ -74,6 +76,14 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  loader: () => ({
+    // Read server-side only; undefined on the client navigation is fine
+    // because analytics is initialized once from the SSR payload.
+    gaMeasurementId:
+      typeof window === "undefined"
+        ? (process.env["GOOGLE_ANALYTICS_MEASUREMENT_ID"] ?? null)
+        : null,
+  }),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -113,6 +123,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { gaMeasurementId } = Route.useLoaderData();
+  const location = useRouterState({ select: (s) => s.location });
+
+  // Initialize GA4 once (from the SSR loader payload) and send a page_view
+  // for the initial load and every client-side navigation. send_page_view is
+  // disabled in the gtag config, so these are the only page_view events —
+  // no duplicates.
+  useEffect(() => {
+    initAnalytics(gaMeasurementId);
+    trackPageView(location.pathname + location.searchStr);
+  }, [gaMeasurementId, location.pathname, location.searchStr]);
 
   return (
     <QueryClientProvider client={queryClient}>
