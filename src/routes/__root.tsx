@@ -14,6 +14,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { initAnalytics, trackPageView } from "../lib/analytics";
+import { GA_MEASUREMENT_ID } from "../lib/analytics-config";
 
 function NotFoundComponent() {
   return (
@@ -77,12 +78,12 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: () => ({
-    // Read server-side only; undefined on the client navigation is fine
-    // because analytics is initialized once from the SSR payload.
+    // Env var overrides when present; otherwise fall back to the baked-in public
+    // ID so hosts without the env var (e.g. Netlify) still track.
     gaMeasurementId:
-      typeof window === "undefined"
-        ? (process.env["GOOGLE_ANALYTICS_MEASUREMENT_ID"] ?? null)
-        : null,
+      (typeof window === "undefined"
+        ? process.env["GOOGLE_ANALYTICS_MEASUREMENT_ID"]
+        : undefined) || GA_MEASUREMENT_ID,
   }),
   head: () => ({
     meta: [
