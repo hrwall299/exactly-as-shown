@@ -1,4 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { useMemo, useState } from "react";
 import { CATEGORIES, EFFECTS, searchEffects } from "@/lib/catalog";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -11,12 +12,16 @@ export const Route = createFileRoute("/category/$id")({
   loader: ({ params }) => {
     const cat = CATEGORIES.find((c) => c.id === params.id && c.id !== "all");
     if (!cat) throw notFound();
-    return { label: cat.label };
+    return { label: cat.label, id: cat.id, count: EFFECTS.filter((e) => e.category === cat.id).length };
   },
   head: ({ loaderData }) => {
-    const t = loaderData ? `${loaderData.label} — UIVerse` : "Category — UIVerse";
-    const d = loaderData ? `Live, copy-ready ${loaderData.label.toLowerCase()} for React and Tailwind.` : "UIVerse category";
-    return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t }, { property: "og:description", content: d }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] };
+    if (!loaderData) return { meta: [{ title: "Category not found — UIVerse" }, { name: "robots", content: "noindex" }] };
+    const l = loaderData.label;
+    return pageHead({
+      path: `/category/${loaderData.id}`,
+      title: `${l} UI Components — Live Previews & Code | UIVerse`,
+      description: `Browse ${loaderData.count} animated ${l.toLowerCase()} components with live previews. Customize and copy React + Tailwind code or a ready-made AI prompt.`,
+    });
   },
   notFoundComponent: () => (
     <div className="grid min-h-screen place-items-center"><Link to="/" className="underline">Category not found — back home</Link></div>

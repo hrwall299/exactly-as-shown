@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { buildPrompt, getEffect, renderCode } from "@/lib/catalog";
+import { buildPrompt, CATEGORIES, getEffect, renderCode } from "@/lib/catalog";
+import { pageHead } from "@/lib/seo";
 import { Preview } from "@/components/previews/registry";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -12,18 +13,15 @@ export const Route = createFileRoute("/effects/$slug")({
   },
   head: ({ loaderData }) => {
     const e = loaderData ? getEffect(loaderData.slug) : undefined;
-    if (!e) return { meta: [{ title: "Effect not found — Webarqn" }, { name: "robots", content: "noindex" }] };
-    const title = `${e.name} — Webarqn`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: e.description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: e.description },
-        { property: "og:type", content: "article" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
+    if (!e) return { meta: [{ title: "Component not found — UIVerse" }, { name: "robots", content: "noindex" }] };
+    const cat = CATEGORIES.find((c) => c.id === e.category)?.label ?? "UI";
+    const base = `${e.description.replace(/\.?\s*$/, ".")} Live preview, copy-paste React + Tailwind code and an AI prompt.`;
+    return pageHead({
+      path: `/effects/${e.slug}`,
+      title: `${e.name} — ${cat} Component | UIVerse`,
+      description: base.length > 160 ? base.slice(0, 157).trimEnd() + "…" : base,
+      type: "article",
+    });
   },
   notFoundComponent: () => (
     <div className="grid min-h-screen place-items-center bg-background text-foreground">
