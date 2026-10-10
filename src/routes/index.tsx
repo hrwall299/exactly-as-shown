@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { useRef, type PointerEvent } from "react";
 import { CATEGORIES, EFFECTS, type Category } from "@/lib/catalog";
 import { Preview } from "@/components/previews/registry";
