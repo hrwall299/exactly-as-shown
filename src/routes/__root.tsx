@@ -89,6 +89,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      // Google Search Console site verification (sitewide, so every page carries it).
+      {
+        name: "google-site-verification",
+        content: "fcpnu0D_hNLWaysIslT5q1C_eAmiezzy0xv0qra9_zc",
+      },
       { title: "Webarqn — Animated UI Effects Library" },
       { name: "description", content: "Live previews and copy-ready code for modern web effects." },
       { property: "og:type", content: "website" },
