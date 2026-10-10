@@ -8,16 +8,12 @@ import { EffectCard } from "@/components/EffectCard";
 import chair from "@/assets/editorial-chair.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "UIVerse — Beautiful UI. Ready to Copy." },
-      { name: "description", content: "An interactive library of live UI components, 3D effects, animations and website sections with matching code and AI prompts." },
-      { property: "og:title", content: "UIVerse — Beautiful UI. Ready to Copy." },
-      { property: "og:description", content: "Preview, interact, customize and copy premium UI components and effects." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      path: "/",
+      title: "UIVerse — Animated UI Components, 3D Effects & Sections",
+      description: "An interactive library of live UI components, 3D effects, animations and website sections with copy-paste React + Tailwind code and AI prompts.",
+    }),
   component: Index,
 });
 

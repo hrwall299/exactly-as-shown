@@ -6,7 +6,7 @@ import { EffectCard } from "@/components/EffectCard";
 import { useFavorites } from "@/lib/favorites";
 
 export const Route = createFileRoute("/favorites")({
-  head: () => ({ meta: [{ title: "Saved components — UIVerse" }, { name: "description", content: "Your saved UIVerse components." }, { property: "og:title", content: "Saved components — UIVerse" }, { property: "og:description", content: "Your saved UIVerse components." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
+  head: () => ({ meta: [{ title: "Saved components — UIVerse" }, { name: "robots", content: "noindex" }, { name: "description", content: "Your saved UIVerse components." }, { property: "og:title", content: "Saved components — UIVerse" }, { property: "og:description", content: "Your saved UIVerse components." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: Favs,
 });
 
